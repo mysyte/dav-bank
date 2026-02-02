@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAV BANK - Secure Online Banking</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #1a3a8f 0%, #2a5bd7 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo i {
+            font-size: 2.5rem;
+            color: #ffcc00;
+        }
+
+        .logo h1 {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .logo span {
+            color: #ffcc00;
+        }
+
+        .tagline {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        /* Login Page Styles */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            padding: 40px 20px;
+        }
+
+        .login-box {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            padding: 40px;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header h2 {
+            color: #1a3a8f;
+            margin-bottom: 10px;
+        }
+
+        .login-header p {
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: #2a5bd7;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(42, 91, 215, 0.1);
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #1a3a8f 0%, #2a5bd7 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #15317a 0%, #1f4bb8 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(42, 91, 215, 0.2);
+        }
+
+        .login-note {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .login-note strong {
+            color: #1a3a8f;
+        }
+
+        /* Dashboard Styles */
+        .dashboard {
+            display: none;
+            padding: 40px 0;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            background-color: #2a5bd7;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .user-details h2 {
+            color: #1a3a8f;
+            margin-bottom: 5px;
+        }
+
+        .user-details p {
+            color: #666;
+        }
+
+        .logout-btn {
+            background-color: #f8f9fa;
+            color: #1a3a8f;
+            border: 2px solid #1a3a8f;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background-color: #1a3a8f;
+            color: white;
+        }
+
+        /* Account Summary */
+        .account-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .account-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-top: 5px solid #2a5bd7;
+        }
+
+        .account-card.savings {
+            border-top-color: #28a745;
+        }
+
+        .account-card.checking {
+            border-top-color: #ffc107;
+        }
+
+        .account-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .account-header h3 {
+            color: #1a3a8f;
+            font-size: 1.3rem;
+        }
+
+        .account-balance {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .account-number {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            margin-bottom: 40px;
+        }
+
+        .quick-actions h3 {
+            color: #1a3a8f;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .action-btn {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-color: #2a5bd7;
+        }
+
+        .action-btn i {
+            font-size: 2.5rem;
+            color: #2a5bd7;
+            margin-bottom: 15px;
+        }
+
+        .action-btn h4 {
+            color: #1a3a8f;
+            margin-bottom: 5px;
+        }
+
+        .action-btn p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Transfer Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h3 {
+            color: #1a3a8f;
+            font-size: 1.5rem;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #666;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: #1a3a8f;
+        }
+
+        .alert {
+            padding: 20px;
+            background-color: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            color: #856404;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .alert i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #ffc107;
+        }
+
+        .alert h4 {
+            margin-bottom: 10px;
+            color: #856404;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1a3a8f;
+            color: white;
+            padding: 30px 0;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .footer-section p, .footer-section a {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 10px;
+            display: block;
+            text-decoration: none;
+        }
+
+        .footer-section a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .user-info {
+                flex-direction: column;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-university"></i>
+                <div>
+                    <h1>DAV <span>BANK</span></h1>
+                    <p class="tagline">Secure Banking Since 1985</p>
+                </div>
+            </div>
+            <div class="contact-info">
+                <p><i class="fas fa-phone"></i> 1-800-DAV-BANK</p>
+                <p><i class="fas fa-shield-alt"></i> 256-bit SSL Encryption</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Login Page -->
+    <div class="container login-container" id="loginPage">
+        <div class="login-box">
+            <div class="login-header">
+                <h2>Secure Online Banking</h2>
+                <p>Sign in to access your accounts</p>
+            </div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="form-control" placeholder="Enter your password" required>
+                </div>
+
+                <button type="submit" class="btn">Sign In</button>
+            </form>
+
+            <div class="login-note">
+                <p><strong>Demo Credentials:</strong></p>
+                <p>Email: <strong>ernestadomako@investment.com</strong></p>
+                <p>Password: <strong>investment2011</strong></p>
+                <p style="margin-top: 10px;">Use these credentials to log into the demo banking system.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard (Initially Hidden) -->
+    <div class="container dashboard" id="dashboard">
+        <div class="dashboard-header">
+            <div class="user-info">
+                <div class="user-avatar">EA</div>
+                <div class="user-details">
+                    <h2>Ernest Adomako</h2>
+                    <p>Last login: Today, 10:15 AM</p>
+                </div>
+            </div>
+            <button class="logout-btn" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i> Log Out
+            </button>
+        </div>
+
+        <div class="account-summary">
+            <div class="account-card savings">
+                <div class="account-header">
+                    <h3>Savings Account</h3>
+                    <i class="fas fa-piggy-bank fa-2x" style="color: #28a745;"></i>
+                </div>
+                <div class="account-balance">$1,200,000.00</div>
+                <p class="account-number">Account: SA-7890-4567-1234</p>
+                <p>Available Balance: $1,200,000.00</p>
+            </div>
+
+            <div class="account-card checking">
+                <div class="account-header">
+                    <h3>Checking Account</h3>
+                    <i class="fas fa-wallet fa-2x" style="color: #ffc107;"></i>
+                </div>
+                <div class="account-balance">$0.00</div>
+                <p class="account-number">Account: CA-1234-5678-9012</p>
+                <p>Available Balance: $0.00</p>
+            </div>
+        </div>
+
+        <div class="quick-actions">
+            <h3>Quick Actions</h3>
+            <div class="action-buttons">
+                <div class="action-btn" id="transferBtn">
+                    <i class="fas fa-exchange-alt"></i>
+                    <h4>Transfer Funds</h4>
+                    <p>Send money between accounts or to others</p>
+                </div>
+
+                <div class="action-btn">
+                    <i class="fas fa-history"></i>
+                    <h4>Transaction History</h4>
+                    <p>View your recent transactions</p>
+                </div>
+
+                <div class="action-btn">
+                    <i class="fas fa-credit-card"></i>
+                    <h4>Manage Cards</h4>
+                    <p>View and manage your debit cards</p>
+                </div>
+
+                <div class="action-btn">
+                    <i class="fas fa-cog"></i>
+                    <h4>Account Settings</h4>
+                    <p>Update your profile and preferences</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transfer Modal -->
+    <div class="modal" id="transferModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Transfer Funds</h3>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+
+            <p>Transfer money between your accounts or to external accounts.</p>
+
+            <div class="alert">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h4>Account Restricted</h4>
+                <p>The account is restricted - to remove the restrictions contact Bank manager.</p>
+                <p style="margin-top: 15px;">
+                    <strong>Contact Bank Manager:</strong><br>
+                    Phone: 1-800-DAV-BANK ext. 701<br>
+                    Email: manager@davbank.com
+                </p>
+            </div>
+
+            <button class="btn" id="closeModalBtn" style="margin-top: 20px;">Close</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>DAV BANK</h4>
+                    <p>Providing secure banking services since 1985. Your financial security is our top priority.</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Contact Us</h4>
+                    <p><i class="fas fa-phone"></i> 1-800-DAV-BANK</p>
+                    <p><i class="fas fa-envelope"></i> support@davbank.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Financial District, New York, NY</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Security</h4>
+                    <p><i class="fas fa-shield-alt"></i> 256-bit SSL Encryption</p>
+                    <p><i class="fas fa-user-shield"></i> FDIC Insured</p>
+                    <p><i class="fas fa-lock"></i> Two-Factor Authentication</p>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2023 DAV BANK. All rights reserved. | This is a demonstration system for portfolio purposes only.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const loginPage = document.getElementById('loginPage');
+        const dashboard = document.getElementById('dashboard');
+        const loginForm = document.getElementById('loginForm');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const transferBtn = document.getElementById('transferBtn');
+        const transferModal = document.getElementById('transferModal');
+        const closeModal = document.getElementById('closeModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+
+        // Predefined credentials
+        const validEmail = "ernestadomako@investment.com";
+        const validPassword = "investment2011";
+
+        // Check if user is already logged in (from session storage)
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = sessionStorage.getItem('davBankLoggedIn');
+
+            if (isLoggedIn === 'true') {
+                showDashboard();
+            } else {
+                showLogin();
+            }
+        });
+
+        // Login Form Submission
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Validate credentials
+            if (email === validEmail && password === validPassword) {
+                // Store login state in session storage
+                sessionStorage.setItem('davBankLoggedIn', 'true');
+                showDashboard();
+            } else {
+                alert('Invalid email or password. Please use the demo credentials provided.');
+            }
+        });
+
+        // Logout Functionality
+        logoutBtn.addEventListener('click', function() {
+            sessionStorage.removeItem('davBankLoggedIn');
+            showLogin();
+            // Clear form fields
+            document.getElementById('email').value = '';
+            document.getElementById('password').value = '';
+        });
+
+        // Transfer Button Click
+        transferBtn.addEventListener('click', function() {
+            transferModal.style.display = 'flex';
+        });
+
+        // Close Modal Buttons
+        closeModal.addEventListener('click', function() {
+            transferModal.style.display = 'none';
+        });
+
+        closeModalBtn.addEventListener('click', function() {
+            transferModal.style.display = 'none';
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(e) {
+            if (e.target === transferModal) {
+                transferModal.style.display = 'none';
+            }
+        });
+
+        // Show Dashboard Function
+        function showDashboard() {
+            loginPage.style.display = 'none';
+            dashboard.style.display = 'block';
+
+            // Update last login time
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            document.querySelector('.user-details p').textContent = `Last login: Today, ${timeString}`;
+        }
+
+        // Show Login Function
+        function showLogin() {
+            loginPage.style.display = 'flex';
+            dashboard.style.display = 'none';
+        }
+
+        // Add some interactivity to action buttons
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (this.id !== 'transferBtn') {
+                    // For demo purposes, show an alert for other buttons
+                    const actionName = this.querySelector('h4').textContent;
+                    alert(`The "${actionName}" feature is not implemented in this demo.`);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
